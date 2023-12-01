@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Open_Sans } from "next/font/google";
+
 import "./globals.css";
+import { ThemeProvider } from "@/components/providers/theme-provider";
+import { cn } from "@/lib/utils";
 
 const font = Open_Sans({ subsets: ["latin"] });
 
@@ -17,8 +20,16 @@ export default function RootLayout({
 }) {
   return (
     <ClerkProvider>
-      <html lang="en">
-        <body className={font.className}>{children}</body>
+      <html lang="en" suppressHydrationWarning>
+        <body className={cn(font.className, "bg-white dark:bg-[#141414]")}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            storageKey="slack-theme"
+          >
+            {children}
+          </ThemeProvider>
+        </body>
       </html>
     </ClerkProvider>
   );
