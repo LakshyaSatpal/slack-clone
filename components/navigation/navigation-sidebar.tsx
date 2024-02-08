@@ -24,7 +24,7 @@ const NavigationSidebar = async () => {
   });
   return (
     <div className="space-y-4 flex flex-col items-center h-full text-primary w-full bg-[#652568] dark:bg-[#300A34] py-3">
-      <ScrollArea className="flex-1 w-full">
+      <ScrollArea className="flex-1 w-full pt-3">
         {workspaces.map((workspace) => (
           <div
             key={workspace.id}
