@@ -18,6 +18,7 @@ import {
   Users,
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
+import { useModal } from "@/hooks/use-modal-store";
 
 interface WorkspaceHeaderProps {
   workspace: WorkspaceWithMembersWithProfiles;
@@ -25,6 +26,7 @@ interface WorkspaceHeaderProps {
 }
 
 export const WorkspaceHeader = ({ workspace, role }: WorkspaceHeaderProps) => {
+  const { onOpen } = useModal();
   const isAdmin = role === MemberRole.ADMIN;
   const isModerator = role === MemberRole.MODERATOR;
 
@@ -32,10 +34,10 @@ export const WorkspaceHeader = ({ workspace, role }: WorkspaceHeaderProps) => {
     <div className="w-full p-3">
       <DropdownMenu>
         <DropdownMenuTrigger className="focus:outline-none">
-          <button className="w-full flex items-center py-2 px-2 rounded text-md font-medium text-neutral-200 transition-all hover:bg-[#300A34]">
-            <span className="mr-1">{workspace.name}</span>
+          <div className="w-full flex items-center py-2 px-2 rounded text-md font-medium text-neutral-200 transition-all hover:bg-[#300A34]">
+            <div className="mr-1">{workspace.name}</div>
             <ChevronDown className="h-5 w-5 ml-auto" />
-          </button>
+          </div>
         </DropdownMenuTrigger>
         <Separator className="bg-[#543A57] -mx-3 mt-2" decorative />
         <DropdownMenuContent
@@ -43,7 +45,10 @@ export const WorkspaceHeader = ({ workspace, role }: WorkspaceHeaderProps) => {
           className="w-56 text-sm bg-white text-black dark:text-neutral-200 dark:bg-[#222529] space-y-[2px]"
         >
           {(isModerator || isAdmin) && (
-            <DropdownMenuItem className="py-2 text-sm cursor-pointer">
+            <DropdownMenuItem
+              onClick={() => onOpen("invite", { workspace })}
+              className="py-2 text-sm cursor-pointer"
+            >
               Invite people
               <UserPlus className="h-4 w-4 ml-auto" />
             </DropdownMenuItem>
