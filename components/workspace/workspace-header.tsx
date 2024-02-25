@@ -47,20 +47,20 @@ export const WorkspaceHeader = ({ workspace, role }: WorkspaceHeaderProps) => {
           {(isModerator || isAdmin) && (
             <DropdownMenuItem
               onClick={() => onOpen("invite", { workspace })}
-              className="py-2 text-sm cursor-pointer"
+              className="py-2 text-sm cursor-pointer focus:bg-sky-600 focus:text-white"
             >
               Invite people
-              <UserPlus className="h-4 w-4 ml-auto" />
+              <UserPlus className="h-4 w-4 ml-auto " />
             </DropdownMenuItem>
           )}
           {isAdmin && (
-            <DropdownMenuItem className="py-2 text-sm cursor-pointer">
+            <DropdownMenuItem className="py-2 text-sm cursor-pointer focus:bg-sky-600 focus:text-white">
               Settings
               <Settings className="h-4 w-4 ml-auto" />
             </DropdownMenuItem>
           )}
           {isAdmin && (
-            <DropdownMenuItem className="py-2 text-sm cursor-pointer">
+            <DropdownMenuItem className="py-2 text-sm cursor-pointer focus:bg-sky-600 focus:text-white">
               Manage Members
               <Users className="h-4 w-4 ml-auto" />
             </DropdownMenuItem>
