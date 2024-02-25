@@ -54,7 +54,10 @@ export const WorkspaceHeader = ({ workspace, role }: WorkspaceHeaderProps) => {
             </DropdownMenuItem>
           )}
           {isAdmin && (
-            <DropdownMenuItem className="py-2 text-sm cursor-pointer focus:bg-sky-600 focus:text-white">
+            <DropdownMenuItem
+              onClick={() => onOpen("editWorkspace", { workspace })}
+              className="py-2 text-sm cursor-pointer focus:bg-sky-600 focus:text-white"
+            >
               Settings
               <Settings className="h-4 w-4 ml-auto" />
             </DropdownMenuItem>

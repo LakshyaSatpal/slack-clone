@@ -1,7 +1,7 @@
 import { Workspace } from "@prisma/client";
 import { create } from "zustand";
 
-export type ModalType = "createWorkspace" | "invite";
+export type ModalType = "createWorkspace" | "invite" | "editWorkspace";
 
 interface ModalData {
   workspace?: Workspace;
