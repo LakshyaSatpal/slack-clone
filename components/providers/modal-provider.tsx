@@ -1,8 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
-import { CreateWorkspaceModal } from "../modals/create-workspace-modal";
-import { InviteModal } from "../modals/invite-modal";
-import { EditWorkspaceModal } from "../modals/edit-workspace-modal";
+import { CreateWorkspaceModal } from "@/components/modals/create-workspace-modal";
+import { InviteModal } from "@/components/modals/invite-modal";
+import { EditWorkspaceModal } from "@/components/modals/edit-workspace-modal";
+import { MembersModal } from "@/components/modals/members-modal";
 
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -20,6 +21,7 @@ export const ModalProvider = () => {
       <CreateWorkspaceModal />
       <InviteModal />
       <EditWorkspaceModal />
+      <MembersModal />
     </>
   );
 };
