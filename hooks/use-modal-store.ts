@@ -5,7 +5,8 @@ export type ModalType =
   | "createWorkspace"
   | "invite"
   | "editWorkspace"
-  | "members";
+  | "members"
+  | "createChannel";
 
 interface ModalData {
   workspace?: Workspace;

@@ -4,6 +4,7 @@ import { CreateWorkspaceModal } from "@/components/modals/create-workspace-modal
 import { InviteModal } from "@/components/modals/invite-modal";
 import { EditWorkspaceModal } from "@/components/modals/edit-workspace-modal";
 import { MembersModal } from "@/components/modals/members-modal";
+import { CreateChannelModal } from "../modals/create-channel-modal";
 
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -22,6 +23,7 @@ export const ModalProvider = () => {
       <InviteModal />
       <EditWorkspaceModal />
       <MembersModal />
+      <CreateChannelModal />
     </>
   );
 };

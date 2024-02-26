@@ -71,6 +71,15 @@ export const WorkspaceHeader = ({ workspace, role }: WorkspaceHeaderProps) => {
               <Users className="h-4 w-4 ml-auto" />
             </DropdownMenuItem>
           )}
+          {(isModerator || isAdmin) && (
+            <DropdownMenuItem
+              onClick={() => onOpen("createChannel", { workspace })}
+              className="py-2 text-sm cursor-pointer focus:bg-sky-600 focus:text-white"
+            >
+              Create Channels
+              <Users className="h-4 w-4 ml-auto" />
+            </DropdownMenuItem>
+          )}
           {isModerator && <DropdownMenuSeparator />}
           {isAdmin && (
             <DropdownMenuItem className="text-rose-500 focus:bg-rose-600 focus:text-white py-2 text-sm cursor-pointer">
@@ -80,7 +89,7 @@ export const WorkspaceHeader = ({ workspace, role }: WorkspaceHeaderProps) => {
           )}
           {!isAdmin && (
             <DropdownMenuItem className="text-rose-500 focus:bg-rose-600 focus:text-white py-2 text-sm cursor-pointer">
-              Leave Server
+              Leave Workspace
               <LogOut className="h-4 w-4 ml-auto" />
             </DropdownMenuItem>
           )}
