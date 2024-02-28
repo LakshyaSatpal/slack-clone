@@ -28,3 +28,25 @@ export async function PATCH(
     return new NextResponse("Internal Error", { status: 500 });
   }
 }
+
+export async function DELETE(
+  req: Request,
+  { params }: { params: { workspaceId: string } }
+) {
+  try {
+    const profile = await currentProfile();
+    if (!profile) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+    const workspace = await db.workspace.delete({
+      where: {
+        id: params.workspaceId,
+        profileId: profile.id,
+      },
+    });
+    return NextResponse.json(workspace);
+  } catch (err) {
+    console.log("[WORKSPACE_ID_DELETE]", err);
+    return new NextResponse("Internal Error", { status: 500 });
+  }
+}
