@@ -3,6 +3,9 @@ import { db } from "@/lib/db";
 import { redirectToSignIn } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import { WorkspaceHeader } from "./workspace-header";
+import { WorkspaceChannels } from "./workpace-channels";
+import { ScrollArea } from "../ui/scroll-area";
+import { WorkspaceMembers } from "./workspace-members";
 
 interface WorkspaceSidebarProps {
   workspaceId: string;
@@ -60,6 +63,10 @@ export const WorkspaceSidebar = async ({
   return (
     <div className="flex flex-col h-full text-primary w-full bg-[#402145] dark:bg-[#251229]">
       <WorkspaceHeader workspace={workspace} role={role} />
+      <ScrollArea className="w-full flex-1 p-3">
+        <WorkspaceChannels workspace={workspace} role={role} />
+        <WorkspaceMembers profile={profile} workspace={workspace} />
+      </ScrollArea>
     </div>
   );
 };

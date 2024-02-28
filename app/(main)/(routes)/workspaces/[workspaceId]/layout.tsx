@@ -38,7 +38,7 @@ const WorkspaceIdLayout = async ({
       <div className="hidden md:flex h-full md:w-60 lg:w-96 z-20 flex-col inset-y-0 fixed">
         <WorkspaceSidebar workspaceId={params.workspaceId} />
       </div>
-      <main className="h-full md:pl-60">{children}</main>
+      <main className="h-full md:pl-60 lg:pl-96">{children}</main>
     </div>
   );
 };
