@@ -4,9 +4,10 @@ import { CreateWorkspaceModal } from "@/components/modals/create-workspace-modal
 import { InviteModal } from "@/components/modals/invite-modal";
 import { EditWorkspaceModal } from "@/components/modals/edit-workspace-modal";
 import { MembersModal } from "@/components/modals/members-modal";
-import { CreateChannelModal } from "../modals/create-channel-modal";
-import { LeaveWorkspaceModal } from "../modals/leave-workspace-modal";
-import { DeleteWorkspaceModal } from "../modals/delete-workspace-modal";
+import { CreateChannelModal } from "@/components/modals/create-channel-modal";
+import { LeaveWorkspaceModal } from "@/components/modals/leave-workspace-modal";
+import { DeleteWorkspaceModal } from "@/components/modals/delete-workspace-modal";
+import { MessageFileModal } from "@/components/modals/message-file-modal";
 
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -28,6 +29,7 @@ export const ModalProvider = () => {
       <CreateChannelModal />
       <LeaveWorkspaceModal />
       <DeleteWorkspaceModal />
+      <MessageFileModal />
     </>
   );
 };
