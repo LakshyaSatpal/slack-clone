@@ -1,15 +1,24 @@
 "use client";
 
 import * as z from "zod";
-import axios, { formToJSON } from "axios";
+import axios from "axios";
 import qs from "query-string";
 import { Member, MemberRole, Profile } from "@prisma/client";
 import { UserAvatar } from "@/components/ui/user-avatar";
 import { ActionTooltip } from "../action-tooltip";
-import { Edit, FileIcon, ShieldAlert, ShieldCheck, Trash } from "lucide-react";
+import {
+  Edit,
+  FileIcon,
+  Router,
+  ShieldAlert,
+  ShieldCheck,
+  Trash,
+} from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import clsx from "clsx";
+
+import { useRouter, useParams } from "next/navigation";
 
 import { Form, FormField, FormControl, FormItem } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
@@ -53,6 +62,17 @@ export const ChatItem = ({
 }: ChatItemProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const { onOpen } = useModal();
+  const params = useParams();
+  const router = useRouter();
+
+  const onMemberClick = () => {
+    if (member.id === currentMember.id) {
+      return;
+    }
+    router.push(
+      `/workspaces/${params?.workspaceId}/conversations/${member.id}`
+    );
+  };
 
   const fileType = fileUrl?.split(".").pop();
 
@@ -125,7 +145,10 @@ export const ChatItem = ({
         <div className="flex flex-col w-full">
           <div className="flex items-center gap-x-2">
             <div className="flex items-center">
-              <p className="font-semibold text-sm hover:underline cursor-pointer">
+              <p
+                onClick={onMemberClick}
+                className="font-semibold text-sm hover:underline cursor-pointer"
+              >
                 {member.profile.name}
               </p>
               <ActionTooltip label={member.role}>
