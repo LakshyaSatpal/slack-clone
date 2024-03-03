@@ -50,7 +50,7 @@ export default async function handler(
     });
 
     if (!workspace) {
-      return res.status(404).json({ error: "Server not found" });
+      return res.status(404).json({ error: "Workspace not found" });
     }
 
     const channel = await db.channel.findFirst({

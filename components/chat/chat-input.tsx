@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import * as z from "zod";
 import { Plus, SendHorizonal } from "lucide-react";
 import { useModal } from "@/hooks/use-modal-store";
+import clsx from "clsx";
 
 interface ChatInputProps {
   apiUrl: string;
@@ -43,6 +44,8 @@ export const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
       });
 
       await axios.post(url, values);
+
+      form.reset();
     } catch (err) {
       console.log(err);
     }
@@ -76,7 +79,13 @@ export const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
                     </button>
                     <button
                       type="submit"
-                      className="text-white bg-emerald-600 rounded-sm p-2"
+                      className={clsx(
+                        "text-zinc-300 dark:text-zinc-600  rounded-sm p-2",
+                        {
+                          "text-white bg-emerald-600 dark:text-white":
+                            field.value.length > 0,
+                        }
+                      )}
                     >
                       <SendHorizonal className="h-4 w-4" />
                     </button>
