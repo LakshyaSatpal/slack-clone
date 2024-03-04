@@ -1,3 +1,4 @@
+import { currentProfile } from "@/lib/current-profile";
 import { currentProfilePages } from "@/lib/current-profile-pages";
 import { db } from "@/lib/db";
 import { NextApiResponseServerIo } from "@/types";
@@ -15,67 +16,69 @@ export default async function handler(
     const profile = await currentProfilePages(req);
 
     const { content, fileUrl } = req.body;
-    const { workspaceId, channelId } = req.query;
+    const { conversationId } = req.query;
 
     if (!profile) {
       return res.status(401).json({ error: "Unauthorized" });
     }
 
-    if (!workspaceId) {
-      return res.status(401).json({ error: "Workspace ID missing" });
-    }
-
-    if (!channelId) {
-      return res.status(401).json({ error: "Channel ID missing" });
+    if (!conversationId) {
+      return res.status(401).json({ error: "Conversation ID missing" });
     }
 
     if (!content) {
       return res.status(401).json({ error: "Content missing" });
     }
 
-    const workspace = await db.workspace.findFirst({
+    const conversation = await db.conversation.findFirst({
       where: {
-        id: workspaceId as string,
-        members: {
-          some: {
-            profileId: profile.id,
+        id: conversationId as string,
+        OR: [
+          {
+            memberOne: {
+              profileId: profile.id,
+            },
+          },
+          {
+            memberTwo: {
+              profileId: profile.id,
+            },
+          },
+        ],
+      },
+      include: {
+        memberOne: {
+          include: {
+            profile: true,
+          },
+        },
+        memberTwo: {
+          include: {
+            profile: true,
           },
         },
       },
-      include: {
-        members: true,
-      },
     });
 
-    if (!workspace) {
-      return res.status(404).json({ error: "Workspace not found" });
+    if (!conversation) {
+      return res.status(404).json({ error: "Conversation not found" });
     }
 
-    const channel = await db.channel.findFirst({
-      where: {
-        id: channelId as string,
-        workspaceId: workspaceId as string,
-      },
-    });
-
-    if (!channel) {
-      return res.status(404).json({ error: "Channel not found" });
-    }
-
-    const member = workspace.members.find(
-      (mem) => mem.profileId === profile.id
-    );
+    const member =
+      conversation.memberOne.profileId === profile.id
+        ? conversation.memberOne
+        : conversation.memberTwo;
 
     if (!member) {
       return res.status(404).json({ error: "Member not found" });
     }
 
-    const message = await db.message.create({
+    const message = await db.directMessage.create({
       data: {
         content,
         fileUrl,
         memberId: member.id,
-        channelId: channel.id,
+        conversationId: conversation.id,
       },
       include: {
         member: {
@@ -86,13 +89,13 @@ export default async function handler(
       },
     });
 
-    const channelKey = `chat:${channelId}:messages`;
+    const channelKey = `chat:${conversationId}:messages`;
 
-    res?.socket?.server?.io?.emit(channelKey, message);
+    res?.socket?.server?.io.emit(channelKey, message);
 
     return res.status(200).json(message);
   } catch (err) {
-    console.log("[MESSAGES_POST]", err);
+    console.log("[DIRECT_MESSAGES_POST]", err);
     return res.status(500).json({ message: "Internal error" });
   }
 }

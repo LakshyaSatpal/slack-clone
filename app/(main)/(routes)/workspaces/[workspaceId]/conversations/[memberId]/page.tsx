@@ -5,6 +5,8 @@ import { redirectToSignIn } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import { getOrCreateConversation } from "@/lib/conversation";
 import { ChatHeader } from "@/components/chat/chat-header";
+import { ChatMessages } from "@/components/chat/chat-messages";
+import { ChatInput } from "@/components/chat/chat-input";
 
 interface MemberIdPageProps {
   params: {
@@ -33,27 +35,48 @@ const MemberIdPage = async ({ params }: MemberIdPageProps) => {
     return redirect("/");
   }
 
-  const conversaton = await getOrCreateConversation(
+  const conversation = await getOrCreateConversation(
     currentMember.id,
     params.memberId
   );
 
-  if (!conversaton) {
+  if (!conversation) {
     return redirect(`/workspaces/${params.workspaceId}`);
   }
 
-  const { memberOne, memberTwo } = conversaton;
+  const { memberOne, memberTwo } = conversation;
 
   const otherMember =
     memberOne.profileId === profile.id ? memberTwo : memberOne;
 
   return (
-    <div>
+    <div className="flex flex-col h-full">
       <ChatHeader
         imageUrl={otherMember.profile.imageUrl}
         name={otherMember.profile.name}
         type="conversation"
         workspaceId={params.workspaceId}
+      />
+      <ChatMessages
+        member={currentMember}
+        name={otherMember.profile.name}
+        chatId={conversation.id}
+        type="conversation"
+        apiUrl="/api/direct-messages"
+        socketUrl="/api/socket/direct-messages"
+        socketQuery={{
+          conversationId: conversation.id,
+        }}
+        paramKey="conversationId"
+        paramValue={conversation.id}
+      />
+      <ChatInput
+        name={otherMember.profile.name}
+        type="conversation"
+        apiUrl="/api/socket/direct-messages"
+        query={{
+          conversationId: conversation.id,
+        }}
       />
     </div>
   );
