@@ -29,9 +29,9 @@ export const NavigationItem = ({ id, imageUrl, name }: NavigationItemProps) => {
         <div
           className={cn(
             "relative flex mx-3 h-[48px] w-[48px] rounded-[16px] transition-all overflow-hidden items-center ",
-            params.workspaceId !== id &&
+            params?.workspaceId !== id &&
               "group-hover:border-2 group-hover:border-neutral-500",
-            params.workspaceId === id && "border-2 border-white"
+            params?.workspaceId === id && "border-2 border-white"
           )}
         >
           <Image fill src={imageUrl} alt="Workspace" />

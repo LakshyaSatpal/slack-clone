@@ -37,7 +37,7 @@ export const WorkspaceChannels = ({
               "flex items-center text-zinc-300 py-1 px-2 hover:bg-[#3b1f40] dark:hover:bg-[#2a162d] rounded-lg cursor-pointer",
               {
                 "bg-[#5F2465] text-white hover:bg-[#5F2465] hover:dark:bg-[#5F2465]":
-                  params.channelId === channel.id,
+                  params?.channelId === channel.id,
               }
             )}
           >
